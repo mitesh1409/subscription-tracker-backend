@@ -1,0 +1,42 @@
+{
+  "name": "subscription-tracker-backend",
+  "version": "1.0.0",
+  "description": "Subscription Tracker Backend",
+  "homepage": "https://github.com/mitesh1409/subscription-tracker-backend#readme",
+  "bugs": {
+    "url": "https://github.com/mitesh1409/subscription-tracker-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitesh1409/subscription-tracker-backend.git"
+  },
+  "license": "MIT",
+  "author": "Mitesh Prajapati",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "eslint": "^9.39.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^17.24.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}
