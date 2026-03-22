@@ -21,6 +21,10 @@ async function connectToDatabase() {
   }
 }
 
+async function closeDatabaseConnection() {
+  await mongoose.connection.close();
+}
+
 // Connection event listeners:
 // connected, disconnected, error
 mongoose.connection.on('connected', () => console.log('MongoDB connected successfully!'));
@@ -30,4 +34,4 @@ mongoose.connection.on('error', (error) => {
   process.exit(1);
 });
 
-export default connectToDatabase;
+export { connectToDatabase, closeDatabaseConnection };

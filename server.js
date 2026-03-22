@@ -1,5 +1,5 @@
 import app from './app.js';
-import connectToDatabase from './database/mongodb.js';
+import { connectToDatabase, closeDatabaseConnection } from './database/mongodb.js';
 import { PORT, HOSTNAME } from './config/env.js';
 
 // Catch synchronous errors before anything starts
@@ -18,18 +18,38 @@ async function startServer() {
       console.log(`Subscription Tracker API server up and running at http://${HOSTNAME}:${PORT}`);
     });
 
+    // Graceful shutdown function
+    async function gracefulShutdown(signal) {
+      console.log(`${signal} received. Shutting down gracefully...`);
+
+      // Stop accepting new requests
+      server.close(async () => {
+        // Do cleanup operations
+
+        // Close database connection
+        await closeDatabaseConnection();
+        console.log('MongoDB connection closed.');
+
+        console.log('Graceful shutdown complete.');
+        process.exit(0);
+      });
+
+      // Safety net — force exit if graceful shutdown takes too long
+      // This handles the case where server.close() hangs due to
+      // keep-alive connections that never close
+      setTimeout(() => {
+        console.error('Graceful shutdown timed out. Forcing exit.');
+        process.exit(1);
+      }, 10000); // 10 seconds — should finish well before Docker's SIGKILL
+    }
+
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+
     // Handle unhandled promise rejections
     process.on('unhandledRejection', (reason) => {
       console.error('Unhandled Rejection:', reason);
       server.close(() => process.exit(1));
-    });
-
-    process.on('SIGTERM', () => {
-      console.log('SIGTERM received. Shutting down gracefully...');
-      server.close(() => {
-        console.log('Server closed.');
-        process.exit(0);
-      });
     });
   } catch (error) {
     console.error('Failed to start server:', error);
