@@ -39,7 +39,8 @@ app.use((req, res, next) => {
   });
 });
 
-// Global error handler - must be at the last
+// Global error handler — must be registered last
+// Catches all errors forwarded via next(err) from anywhere in the app
 app.use(errorHandler);
 
 export default app;
