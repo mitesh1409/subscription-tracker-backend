@@ -30,6 +30,15 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
 
+// 404 handler — catches requests to routes that don't exist
+// Must be after all routes so it only triggers if no route matched
+app.use((req, res, next) => {
+  next({
+    statusCode: 404,
+    message: `Route ${req.method} ${req.path} not found`,
+  });
+});
+
 // Global error handler - must be at the last
 app.use(errorHandler);
 
