@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
@@ -6,6 +7,20 @@ import subscriptionRouter from './routes/subscription.routes.js';
 import errorHandler from './middlewares/error.middleware.js';
 
 const app = express();
+
+// Middlewares
+
+// Parse incoming requests with JSON payloads (Content-Type: application/json)
+app.use(express.json());
+
+// Parse incoming requests with URL-encoded payloads (Content-Type: application/x-www-form-urlencoded)
+// extended: true allows parsing of nested objects using the qs library
+app.use(express.urlencoded({ extended: true }));
+
+// Parse Cookie header and populate req.cookies with an object keyed by cookie names
+app.use(cookieParser());
+
+// Routes
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Subscription Tracker API!');
