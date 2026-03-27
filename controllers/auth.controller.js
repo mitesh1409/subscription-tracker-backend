@@ -82,7 +82,11 @@ const signIn = async (req, res, next) => {
     const token = setJwt(user);
 
     // Set the token as a cookie in the response.
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: isProdEnv(),
+      sameSite: 'strict',
+    });
 
     res.status(200).json({
       success: true,
