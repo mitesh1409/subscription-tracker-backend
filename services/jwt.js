@@ -14,4 +14,14 @@ function setJwt(userData) {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 }
 
-export default setJwt;
+function getUser(token) {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    console.error('Failed to verify JWT token:', token);
+    console.error(error);
+    return null;
+  }
+}
+
+export { setJwt, getUser };
