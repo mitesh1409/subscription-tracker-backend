@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import isProdEnv from '../services/utils.js';
 
 // Invalid MongoDB ID format in URL param
 // mongoose.Error.CastError
@@ -71,7 +72,7 @@ const errorHandler = (err, req, res, _next) => {
   }
 
   // Log stack trace in development only - never in production
-  if (process.env.APP_ENV === 'development') {
+  if (!isProdEnv()) {
     console.error(`[${req.method}] ${req.path} - ${err.stack}`);
   }
 
@@ -80,7 +81,7 @@ const errorHandler = (err, req, res, _next) => {
     status: statusCode,
     message,
     // Include stack trace in development only - never in production
-    ...(process.env.APP_ENV === 'development' && { stack: err.stack }),
+    ...(!isProdEnv() && { stack: err.stack }),
   });
 };
 
