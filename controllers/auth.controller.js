@@ -3,8 +3,7 @@ import bcrypt from 'bcryptjs';
 
 import User from '../models/user.model.js';
 import AppError from '../utils/AppError.js';
-import setJwt from '../services/jwt.js';
-import isProdEnv from '../services/utils.js';
+import { setJwt } from '../services/jwt.js';
 
 const signUp = async (req, res, next) => {
   const dbSession = await mongoose.startSession();
@@ -81,13 +80,6 @@ const signIn = async (req, res, next) => {
 
     const token = setJwt(user);
 
-    // Set the token as a cookie in the response.
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: isProdEnv(),
-      sameSite: 'strict',
-    });
-
     res.status(200).json({
       success: true,
       message: 'User signed in successfully',
@@ -107,12 +99,6 @@ const signIn = async (req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 const signOut = async (req, res, next) => {
-  res.clearCookie('token', {
-    httpOnly: true,
-    secure: isProdEnv(),
-    sameSite: 'strict',
-  });
-
   res.status(200).json({
     success: true,
     message: 'Signed out successfully',
