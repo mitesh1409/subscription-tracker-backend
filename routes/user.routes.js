@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import getAllUsers from '../controllers/user.controller.js';
 
 const userRouter = Router();
 
@@ -10,11 +11,8 @@ userRouter.post('/', (req, res) => {
 });
 
 // Read
-userRouter.get('/', (req, res) => {
-  res.json({
-    route: 'GET /users - get all the users',
-  });
-});
+// GET /users - Get all the users
+userRouter.get('/', getAllUsers);
 
 userRouter.get('/:id', (req, res) => {
   res.json({
