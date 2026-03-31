@@ -16,7 +16,7 @@ userRouter.post('/', (req, res) => {
 userRouter.get('/', authorize, getAllUsers);
 
 // GET /users/:id - Get user by id
-userRouter.get('/:id', getUserById);
+userRouter.get('/:id', authorize, getUserById);
 
 // Update
 userRouter.put('/:id', (req, res) => {
