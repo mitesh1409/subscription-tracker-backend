@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import getAllUsers from '../controllers/user.controller.js';
+import { getAllUsers, getUserById } from '../controllers/user.controller.js';
 
 const userRouter = Router();
 
@@ -14,11 +14,8 @@ userRouter.post('/', (req, res) => {
 // GET /users - Get all the users
 userRouter.get('/', getAllUsers);
 
-userRouter.get('/:id', (req, res) => {
-  res.json({
-    route: `GET /users/:id - get user by id: ${req.params.id}`,
-  });
-});
+// GET /users/:id - Get user by id
+userRouter.get('/:id', getUserById);
 
 // Update
 userRouter.put('/:id', (req, res) => {
