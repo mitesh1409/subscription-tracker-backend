@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { getAllUsers, getUserById } from '../controllers/user.controller.js';
+
+import { getAllUsers, getUserById, getUserSubscriptions } from '../controllers/user.controller.js';
 import authorize from '../middlewares/authorize.middleware.js';
 
 const userRouter = Router();
@@ -32,11 +33,8 @@ userRouter.delete('/:id', (req, res) => {
   });
 });
 
-// Get a sub-resource - get all the subscriptions for a user
-userRouter.get('/:id/subscriptions', (req, res) => {
-  res.json({
-    route: `GET /users/:id/subscriptions - get all the subscriptions for the user with id: ${req.params.id}`,
-  });
-});
+// Get a sub-resource - Get all the subscriptions for a user
+// GET /users/:id/subscriptions - Get all the subscriptions for the user with id: id
+userRouter.get('/:id/subscriptions', authorize, getUserSubscriptions);
 
 export default userRouter;
