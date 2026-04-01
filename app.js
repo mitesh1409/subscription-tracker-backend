@@ -5,6 +5,7 @@ import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
 import subscriptionRouter from './routes/subscription.routes.js';
 import errorHandler from './middlewares/error.middleware.js';
+import arcjetMiddleware from './middlewares/arcjet.middleware.js';
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Parse Cookie header and populate req.cookies with an object keyed by cookie names
 app.use(cookieParser());
+
+app.use(arcjetMiddleware);
 
 // Routes
 
