@@ -13,7 +13,7 @@ subscriptionRouter.get('/upcoming-renewals', (req, res) => {
 });
 
 // Create
-// POST /subscriptions - create a subscription
+// POST /subscriptions - Create a subscription
 subscriptionRouter.post('/', authorize, createSubscription);
 
 // Read
