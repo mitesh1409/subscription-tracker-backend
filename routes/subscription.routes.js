@@ -1,5 +1,8 @@
 import { Router } from 'express';
 
+import authorize from '../middlewares/authorize.middleware.js';
+import createSubscription from '../controllers/subscription.controller.js';
+
 const subscriptionRouter = Router();
 
 // Get subscriptions with upcoming renewals
@@ -10,11 +13,8 @@ subscriptionRouter.get('/upcoming-renewals', (req, res) => {
 });
 
 // Create
-subscriptionRouter.post('/', (req, res) => {
-  res.json({
-    route: 'POST /subscriptions - create a subscription',
-  });
-});
+// POST /subscriptions - create a subscription
+subscriptionRouter.post('/', authorize, createSubscription);
 
 // Read
 subscriptionRouter.get('/', (req, res) => {
